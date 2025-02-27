@@ -1,0 +1,13 @@
+Empty block in C : Allowed
+
+
+Skeleton:
+
+#include <stdio.h>
+
+int main(){
+    
+    return 0;
+}
+
+Logic vs Physical Address
