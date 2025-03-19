@@ -18,7 +18,7 @@ int main() {
     // Printing the address of a
     printf("%p\n", (void *)&a); // Print the address of the variable a.
 
-    // Dereferencing p to get the value stored at the address (= 5)
+    // Dereferencing p to get the value stored at the address (which is 5)
     printf("%d\n", *p); // Dereferencing p gives the value at the address it points to (value of a).
     // '*' is used to dereference the pointer, i.e., accessing the value stored at the memory address 'p' points to.
 
