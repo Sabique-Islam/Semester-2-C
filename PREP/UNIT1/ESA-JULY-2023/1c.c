@@ -37,5 +37,4 @@ int main() {
     return 0;
 }
 
-
 // For exam, write without functions
