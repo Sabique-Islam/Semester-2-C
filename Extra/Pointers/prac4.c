@@ -9,11 +9,13 @@ int main(){
     p = &a;
     printf("Integer size: %d bytes\n", sizeof(int));
     printf("Address = %p, Value = %d\n", p, *p);
+    printf("Address = %p, Value = %d\n", p+1, *(p+1));
     
     char *p0;
     p0 = (char*)p; //typecasting
     printf("Character size: %d byte\n", sizeof(char));
     printf("Address = %p, Value = %d\n", p0, *p0);
+    printf("Address = %p, Value = %d\n", p0+1, *(p0+1)); // Value = 4, cuz 00000100 is 4 in decimal.
 
     return 0;
 }
