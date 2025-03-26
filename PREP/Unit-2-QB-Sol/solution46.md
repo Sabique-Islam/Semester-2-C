@@ -1,0 +1,1 @@
+### *46* > An entire array is always passed by **reference** to a called function.
