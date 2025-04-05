@@ -24,3 +24,4 @@ int main() {
     printf("%d\n", digit(829,2));
     printf("%d\n", digit(829,3));
     printf("%d\n", digit(1,829));
+}
