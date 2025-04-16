@@ -13,7 +13,7 @@ int main(){
     printf("String2 --> %s, with length --> %ld\n", String2, strlen(String2));
 
     strcat(String1, String2);
-    
+
     puts(String1);
     printf("\n\n");
     puts(String2);
@@ -22,5 +22,4 @@ int main(){
     printf("String2 --> %s, with length --> %ld\n", String2, strlen(String2));
 
     printf("\n\n");
-    return 0;
 }
