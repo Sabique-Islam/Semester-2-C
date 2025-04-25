@@ -1,0 +1,1 @@
+**GDB (GNU Debugger) is a tool to debug C programs. It helps in stepping through code, inspect variables, set breakpoints, and more.**
