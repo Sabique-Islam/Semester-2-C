@@ -255,5 +255,70 @@ int main() {
 
 # PDF-3 : Command Line Arguments
 
+---
 
+Command line arguments allows to pass data to a C program **while executing it** in the terminal.
 
+### Example:
+```bash
+a.exe 18 27
+```
+- `a.exe` is the compiled program
+- `18` and `27` are arguments passed to it
+
+All the arguments passed this way are **received as strings** inside C program. If you're passing numbers, you need to **convert** them using `atoi()` (ASCII to integer).
+
+---
+
+## argc and argv
+
+To accept command line arguments, `main()` function should be like this:
+```c
+int main(int argc, char *argv[]) {
+    // insert code :)
+}
+```
+
+- **`argc`** (Argument Count):
+  - Tells, how many arguments were passed.
+  - Example: `a.exe 18 27` → `argc` is 3
+
+- **`argv`** (Argument Vector):
+  - An array of strings (char pointers) that holds all the arguments:
+    - `argv[0]` → "a.exe"
+    - `argv[1]` → "18"
+    - `argv[2]` → "27"
+
+You can loop through `argv[]` to access and use each argument.
+
+---
+
+## Sum of Command Line Numbers
+
+Sum of numbers passed through the command line:
+
+### Sample Code:
+```c
+#include <stdio.h>
+#include <stdlib.h> // for atoi()
+
+int main(int argc, char *argv[]) {
+    int sum = 0;
+    for (int i = 1; i < argc; i++) {
+        sum += atoi(argv[i]);
+    }
+    printf("Sum: %d\n", sum);
+    return 0;
+}
+```
+
+### Example Run:
+```bash
+a.exe 10 20 30
+```
+**Output:**
+```
+Sum: 60
+```
+
+---
