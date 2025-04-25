@@ -91,7 +91,7 @@ int main() {
 ---
 
 
-# PDF-2 : String manipulation Functions & Errors
+# PDF-2&3 : String manipulation Functions & Errors
 
 ### Common String Functions -->
 
@@ -253,7 +253,7 @@ int main() {
 ```
 ---
 
-# PDF-3 : Command Line Arguments
+# PDF-4 : Command Line Arguments
 
 ---
 
@@ -319,6 +319,169 @@ a.exe 10 20 30
 **Output:**
 ```
 Sum: 60
+```
+
+---
+
+# PDF-5 : Dynamic Memory Management
+---
+
+## 1. Problem with Fixed-Size Arrays
+
+- Fixed arrays can be inefficient when:
+  - The amount of data isn't known beforehand.
+  - The number of data elements changes during execution.
+
+### Issues:
+- **Wastage**: Allocating more space than needed.
+- **Shortage**: Allocating less space than needed.
+
+**Example**:  
+```c
+int A[1000]; // wastes memory if only 50 elements are used
+```
+
+**Solution**: Use **Dynamic Memory Management**.
+
+---
+
+## 2. Types of Memory Allocation
+
+### a. Static Allocation
+- Handled by the compiler.
+- Done at load time.
+- Example: `int a; float b; int arr[20];`
+
+### b. Automatic Allocation
+- Also decided by the compiler.
+- Done at runtime during function calls (stack).
+- Memory is freed when the function ends.
+
+### c. Dynamic Allocation
+- Done explicitly using memory functions.
+- Memory is managed during runtime.
+- Uses the **heap** memory region.
+
+---
+
+## 3. Dynamic Memory Allocation Functions
+
+All available in `<stdlib.h>`
+
+### a. `malloc()`
+- Allocates a block of uninitialized memory.
+- Returns a `void*` pointer.
+```c
+int* ptr = (int*) malloc(sizeof(int));
+```
+
+### b. `calloc()`
+- Allocates memory for multiple elements and initializes them to zero.
+```c
+int* ptr = (int*) calloc(3, sizeof(int));
+```
+
+### c. `realloc()`
+- Resizes a previously allocated block.
+```c
+ptr = (int*) realloc(ptr, new_size);
+```
+- Preserves content up to the minimum of old and new size.
+- If expansion isn’t possible, moves to a new block.
+
+### d. `free()`
+- Frees the dynamically allocated memory.
+```c
+free(ptr);
+```
+- No need to specify size.  
+- Internally tracked by the system using **bookkeeping info**.
+
+---
+
+# PDF-6 : Dynamic Memory Management Erros
+
+## 1. Dangling Pointer
+
+| Issue | Description |
+|-------|-------------|
+| Definition | Pointer pointing to deallocated memory |
+| Cause | Memory is freed but pointer still holds the address |
+| Effect | Dereferencing causes undefined behavior |
+| Fix | Set the pointer to `NULL` after `free()` |
+
+### Example Scenario
+```c
+int* ptr = (int*) malloc(sizeof(int));
+free(ptr);  // memory is deallocated
+// ptr still points to the same address - this is dangling
+ptr = NULL; // solution
+```
+
+---
+
+## 2. NULL Pointer
+
+- Occurs when a pointer is initialized or reset to `NULL`.
+- **Dereferencing a NULL pointer causes a guaranteed crash.**
+
+### Safe Practice:
+```c
+if (ptr != NULL) {
+    // safe to use ptr
+}
+```
+
+---
+
+## 3. Garbage Memory
+
+| Issue | Description |
+|-------|-------------|
+| Definition | Memory that has been allocated but is inaccessible (no reference) |
+| Cause | Allocating memory to the same pointer without freeing it |
+| Result | Memory leak (especially in heap) |
+
+### Example:
+```c
+int* ptr = (int*) malloc(10);
+ptr = (int*) malloc(20); // memory for 10 bytes lost (garbage)
+```
+
+---
+
+## 4. Double Free Error
+
+- Occurs when `free()` is called on a pointer that has already been freed.
+- **Results in undefined behavior**, possibly corrupting memory.
+
+### Bad Practice:
+```c
+free(ptr);
+free(ptr); // double free - avoid this!
+```
+
+### Safe Practice:
+```c
+free(ptr);
+ptr = NULL;
+```
+
+---
+
+## 5. Visualizing Dangling Pointer
+
+### Before `free()`:
+```
+Heap:    [5000] [5001] [5002] ...
+Pointer: ptr --> 5000
+```
+
+### After `free()`:
+```
+Heap:    Memory at 5000 deallocated
+Pointer: ptr still --> 5000 (Dangling!)
+Fix:     ptr = NULL;
 ```
 
 ---
