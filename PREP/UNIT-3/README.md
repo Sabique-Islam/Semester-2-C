@@ -485,3 +485,402 @@ Fix:     ptr = NULL;
 ```
 
 ---
+
+# PDF- 7&8 : Structures in C
+
+## Introduction
+
+| Key Point | Description |
+|:---|:---|
+| **Definition** | A user-defined data type combining different types of data. |
+| **Purpose** | To group related but different types of data under a single name. |
+| **Use Cases** | When a lot of different data needs to be grouped meaningfully. |
+| **Memory Layout** | Binary layout decided at type creation. |
+
+> **Think of it like a custom backpack where you can pack books, snacks, and your tablet together — all different items, but neatly organized!**
+
+---
+
+## Characteristics/Properties
+
+| Feature | Details |
+|:---|:---|
+| **Components** | One or more named data members (homogeneous or heterogeneous). |
+| **Field Order** | Order and size decided at type creation. |
+| **Memory Size** | At least the sum of member sizes; compiler decides offsets. |
+| **Assignment** | Compatible structures can be assigned directly. |
+
+---
+
+## Syntax
+
+```c
+struct <structure_name> {
+    data_type member1;
+    data_type member2;
+    ...
+    data_type membern;
+}; // Important: semicolon needed!
+```
+
+### Example:
+```c
+struct Student {
+    int roll_no;
+    char name[20];
+    int marks;
+};
+```
+
+---
+
+## Declaration
+
+| Syntax | Example |
+|:---|:---|
+| **Normal variable** | `struct Student s1;` |
+| **Pointer variable** | `struct Student* s2;` |
+
+> **Tip:** No memory is allocated when you just define the structure. Only when you declare an instance like `s1` or `s2`.
+
+---
+
+## Initialization
+
+- Use `{}` braces to initialize.
+- Values are automatically mapped to members.
+
+### Types of Initialization:
+| Type | Details | Example |
+|:---|:---|:---|
+| **Complete** | All values provided. | `struct Student s1 = {1, "John", 90};` |
+| **Partial** | Some values given; others default to 0 or '\0'. | `struct Student s2 = {2};` |
+| **Designated (C99)** | Initialize by member name, any order. | `struct Student s3 = {.marks=85, .roll_no=3};` |
+
+---
+
+## Accessing Members
+
+| Method | Syntax | Example |
+|:---|:---|:---|
+| **Dot Operator (.)** | `struct_var.member_name` | `s1.roll_no` |
+| **Arrow Operator (->)** | `pointer_var->member_name` | `s2->roll_no` |
+
+> **Quick Hint:** Use `.` when you have an object, `->` when you have a pointer.
+
+---
+
+## Memory Allocation
+
+- Total size is at least the sum of all data members' sizes.
+- Offset and padding decided at compile time.
+- Implementation-specific variations exist.
+
+---
+
+## Comparison of Structures
+
+| Can you directly compare structures? |
+|:---|
+| No, you cannot use `==` or `!=` directly between structures. |
+
+### How?
+- You must compare each member individually.
+
+### Example:
+```c
+if (s1.roll_no == s2->roll_no) {
+    printf("Same roll numbers!\n");
+}
+```
+
+---
+
+## Flowchart: Working with Structures
+
+```mermaid
+flowchart TD
+    A[Define Structure with struct keyword] --> B[Declare instance variables or pointers]
+    B --> C{Initialize Members}
+    C --> D[Access using . or -> operators]
+    D --> E[Use in functions, arrays, etc.]
+    E --> F[No direct structure comparison]
+```
+
+---
+
+## Final Cheat Sheet
+
+| Concept | Keyword/Operator | Example |
+|:---|:---|:---|
+| Create Structure | `struct` | `struct Student {...};` |
+| Dot Operator | `.` | `s1.name` |
+| Pointer Access | `->` | `s2->marks` |
+| Initialize | `{}` or Designated | `{1, "A", 90}` or `{.marks=90}` |
+| Compare Members | Individually | `if (s1.roll_no == s2->roll_no)` |
+
+---
+
+## Examples
+
+### Example 1: Basic Structure Usage
+```c
+#include <stdio.h>
+
+struct Student {
+    int roll_no;
+    char name[20];
+    int marks;
+};
+
+int main() {
+    struct Student s1 = {1, "Alice", 95};
+    printf("Roll No: %d\n", s1.roll_no);
+    printf("Name: %s\n", s1.name);
+    printf("Marks: %d\n", s1.marks);
+    return 0;
+}
+```
+
+### Example 2: Structure with Pointer
+```c
+#include <stdio.h>
+
+struct Student {
+    int roll_no;
+    char name[20];
+    int marks;
+};
+
+int main() {
+    struct Student s1 = {2, "Bob", 88};
+    struct Student* ptr = &s1;
+    printf("Roll No: %d\n", ptr->roll_no);
+    printf("Name: %s\n", ptr->name);
+    printf("Marks: %d\n", ptr->marks);
+    return 0;
+}
+```
+
+### Example 3: Array of Structures
+```c
+#include <stdio.h>
+
+struct Student {
+    int roll_no;
+    char name[20];
+    int marks;
+};
+
+int main() {
+    struct Student arr[2] = {{1, "Alice", 95}, {2, "Bob", 88}};
+    for (int i = 0; i < 2; i++) {
+        printf("Student %d: %s scored %d marks.\n", arr[i].roll_no, arr[i].name, arr[i].marks);
+    }
+    return 0;
+}
+```
+
+# 1. Member-wise Copy
+
+| Key Point      | Description                                                      |
+| -------------- | ---------------------------------------------------------------- |
+| **Definition** | Structures of the same type are assignment compatible.           |
+| **Behavior**   | Member-wise copying happens; all values are copied individually. |
+| **Memory**     | The copies are independent; no shared memory.                    |
+| **Changes**    | Modification in one structure does not affect the other.         |
+
+### Example
+
+```c
+#include <stdio.h>
+
+struct Student {
+    int roll_no;
+    char name[20];
+};
+
+int main() {
+    struct Student s1 = {1, "Alice"};
+    struct Student s2;
+
+    s2 = s1; // Member-wise copy
+
+    printf("Original: %d %s\n", s1.roll_no, s1.name);
+    printf("Copy: %d %s\n", s2.roll_no, s2.name);
+
+    return 0;
+}
+```
+
+---
+
+# 2. Typedef
+
+| Key Point   | Description                                        |
+| ----------- | -------------------------------------------------- |
+| **Purpose** | Creates an alias name for an existing type.        |
+| **Scope**   | Can be used with primitive and user-defined types. |
+| **Nature**  | No new type is created, only a new name.           |
+
+### Syntax
+
+```c
+typedef <existing_type> <new_name>;
+```
+
+### Examples
+
+| Without Typedef      | With Typedef                           |
+| -------------------- | -------------------------------------- |
+| `int a, b;`          | `typedef int integer;\ninteger a, b;`  |
+| `struct Student s1;` | `typedef struct Student Stu;\nStu s1;` |
+
+### Typedef with Structures Example
+
+```c
+#include <stdio.h>
+
+typedef struct {
+    int roll_no;
+    char name[20];
+} Student;
+
+int main() {
+    Student s1 = {101, "John"};
+    printf("Roll No: %d\n", s1.roll_no);
+    return 0;
+}
+```
+
+---
+
+# 3. Nested Structures
+
+| Key Point      | Description                                   |
+| -------------- | --------------------------------------------- |
+| **Definition** | A structure defined inside another structure. |
+| **Ways**       | Separate declaration and embedding directly.  |
+
+### Way 1: Using Existing Structures
+
+```c
+struct Date {
+    int day, month, year;
+};
+
+struct Student {
+    int roll_no;
+    struct Date dob;
+};
+```
+
+### Way 2: Embedded Declaration
+
+```c
+struct Student {
+    int roll_no;
+    struct {
+        int day, month, year;
+    } dob;
+};
+```
+
+### Nested Access Example
+
+```c
+#include <stdio.h>
+
+struct Student {
+    int roll_no;
+    struct {
+        int day, month, year;
+    } dob;
+};
+
+int main() {
+    struct Student s1 = {101, {15, 8, 2000}};
+    printf("DOB: %d/%d/%d\n", s1.dob.day, s1.dob.month, s1.dob.year);
+    return 0;
+}
+```
+
+---
+
+# 4. Passing Structures to Functions
+
+| Key Point           | Description                                                                           |
+| ------------------- | ------------------------------------------------------------------------------------- |
+| **Default Passing** | Always by value (copy made).                                                          |
+| **Modification**    | Modifications inside the function don't affect the original unless passed by pointer. |
+
+### Passing by Value
+
+```c
+#include <stdio.h>
+
+struct Student {
+    int roll_no;
+};
+
+void display(struct Student s) {
+    printf("Roll No: %d\n", s.roll_no);
+}
+
+int main() {
+    struct Student s1 = {101};
+    display(s1);
+    return 0;
+}
+```
+
+### Passing by Pointer
+
+```c
+#include <stdio.h>
+
+struct Student {
+    int roll_no;
+};
+
+void update(struct Student *s) {
+    s->roll_no = 202;
+}
+
+int main() {
+    struct Student s1 = {101};
+    update(&s1);
+    printf("Updated Roll No: %d\n", s1.roll_no);
+    return 0;
+}
+```
+
+---
+
+# Final Visualization
+
+```mermaid
+flowchart TD
+    A[Create Structure] --> B[Declare Variable or Pointer]
+    B --> C[Initialize Members]
+    C --> D[Copy Member-wise if Needed]
+    D --> E[Use Typedef for Readability]
+    E --> F[Nest Structures if Needed]
+    F --> G[Pass to Functions]
+```
+
+---
+
+# Quick Recap Table
+
+| Concept          | Example                              |
+| ---------------- | ------------------------------------ |
+| Typedef          | `typedef struct {...} Name;`         |
+| Nested Structure | `struct Student {struct Date dob;};` |
+| Pass by Value    | `void func(struct Student s)`        |
+| Pass by Pointer  | `void func(struct Student* s)`       |
+| Member-wise Copy | `s2 = s1;`                           |
+
+---
+
+#
