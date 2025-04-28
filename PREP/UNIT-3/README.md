@@ -883,4 +883,408 @@ flowchart TD
 
 ---
 
-#
+# PDF - 9 :  Arrays of Structures
+
+---
+
+## 1. Introduction
+
+Imagine you need to store **Roll Number**, **Name**, and **Marks** for **one** student.
+
+We use a simple **Structure**:
+
+```c
+struct student {
+    int roll_no;
+    char name[100];
+    int marks;
+};
+```
+
+Example:
+
+```c
+struct student s1 = {1, "Alice", 90};
+printf("%d %s %d", s1.roll_no, s1.name, s1.marks);
+```
+
+---
+
+But what if you have **100 students**?
+
+You cannot create 100 different structures manually!
+**Solution**: Use an **Array of Structures**.
+
+```c
+struct student S[100];
+```
+
+### Visualization
+
+| Array Index | Roll No. | Name | Marks |
+| ----------- | -------- | ---- | ----- |
+| S[0]        | -        | -    | -     |
+| S[1]        | -        | -    | -     |
+| ...         | ...      | ...  | ...   |
+| S[99]       | -        | -    | -     |
+
+Each element stores **one student's details**.
+
+Example:
+
+```c
+S[0].roll_no = 101;
+strcpy(S[0].name, "Bob");
+S[0].marks = 85;
+```
+
+---
+
+## 2. Array of Structure Variable Definition
+
+You can **define** array of structures in two ways:
+
+### (a) Along with Structure Declaration
+
+```c
+struct student {
+    int roll_no;
+    char name[100];
+    int marks;
+} s[100];
+```
+
+Example:
+
+```c
+s[0].roll_no = 102;
+strcpy(s[0].name, "Charlie");
+s[0].marks = 75;
+```
+
+### (b) After Structure Declaration
+
+```c
+struct student s[100];
+```
+
+Example:
+
+```c
+s[1].roll_no = 103;
+strcpy(s[1].name, "David");
+s[1].marks = 88;
+```
+
+---
+
+## 3. Array of Structure Variable Initialization
+
+You can initialize **at Compile Time**:
+
+```c
+struct student S[] = {
+    {1, "John", 60},
+    {2, "Jack", 40},
+    {3, "Jill", 77}
+};
+```
+
+Example:
+
+```c
+printf("%d %s %d", S[0].roll_no, S[0].name, S[0].marks);
+```
+
+Or **Partially Initialize**:
+
+```c
+struct student S[2] = {
+    {1, "John", 60},
+    {2, "Jack", 40}
+};
+```
+
+Example:
+
+```c
+printf("%d %s %d", S[1].roll_no, S[1].name, S[1].marks);
+```
+
+**At Runtime** (preferred for big data):
+
+```c
+for (int i = 0; i < 100; i++) {
+    scanf("%d %s %d", &S[i].roll_no, S[i].name, &S[i].marks);
+}
+```
+
+Example:
+
+```c
+for (int i = 0; i < 3; i++) {
+    printf("%d %s %d\n", S[i].roll_no, S[i].name, S[i].marks);
+}
+```
+
+---
+
+## 4. Pointer to an Array of Structures
+
+Pointers make accessing array elements super fast and efficient!
+
+### Example:
+
+```c
+struct student ST[5];
+struct student *ptr = ST;
+```
+
+Now you can access:
+
+```c
+(ptr + 1)->roll_no = 202;
+strcpy((ptr + 1)->name, "Ella");
+(ptr + 1)->marks = 92;
+
+printf("%d %s %d", (ptr + 1)->roll_no, (ptr + 1)->name, (ptr + 1)->marks);
+```
+
+### Memory Layout Diagram:
+
+```
+| ST[0] | ST[1] | ST[2] | ST[3] | ST[4] |
+ | 1000 | 1060  | 1120  | 1180  | 1240  |  (Assuming each struct takes 60 bytes)
+```
+
+- `ptr` points to `ST[0]`
+- `ptr + 1` points to `ST[1]`
+- `ptr + 2` points to `ST[2]`
+
+---
+
+## Flowchart
+
+```mermaid
+flowchart TD
+    A[Define Structure] --> B[Create Array of Structures]
+    B --> C[Initialize the Array]
+    C --> D[Use Pointer to Access]
+```
+
+---
+
+# Conclusion
+
+- Structures store **different types** of related data.
+- **Array of structures** helps manage **multiple entries** easily.
+- **Pointers** make it **efficient and faster**.
+
+---
+
+Graph: Speed of Access
+
+| Method         | Speed  |
+| -------------- | ------ |
+| Array Access   | Medium |
+| Pointer Access | Fast   |
+
+
+# PDF - 10 : Bit fields in C
+
+
+## 1. What is a Bit Field?
+
+- A **bit field** is a set of adjacent bits within a single memory word that represents values or flags.
+- Variables have a **predefined width** (number of bits).
+- **Purpose:**
+  - Reduce memory usage
+  - Implement compact structures
+  - Enhance performance in specific scenarios
+
+### Example:
+
+```c
+struct status {
+    unsigned int flag1 : 1;  // 1 bit for flag1
+    unsigned int flag2 : 1;  // 1 bit for flag2
+    unsigned int mode  : 2;  // 2 bits for mode (values 0-3)
+};
+
+struct status s1;
+s1.flag1 = 1;
+s1.flag2 = 0;
+s1.mode = 3;
+```
+
+- `flag1` and `flag2` can be either 0 or 1.
+- `mode` can take values from 0 to 3.
+
+---
+
+## 2. Bit Field Creation
+
+- **Syntax:**
+
+```c
+struct [tag] {
+    type [member_name] : width;
+};
+```
+
+| Part | Meaning |
+| --- | --- |
+| type | `int`, `signed int`, or `unsigned int` |
+| member_name | Name of the bit field |
+| width | Number of bits assigned |
+
+- **Important:**
+  - Width must be ≤ bit width of type.
+  - Maximum value stored = \(2^n - 1\), where `n = width`
+
+### Example:
+
+```c
+struct flags {
+    unsigned int read  : 1;
+    unsigned int write : 1;
+    unsigned int exec  : 1;
+};
+
+struct flags file1 = {1, 0, 1};
+printf("Read: %d, Write: %d, Execute: %d", file1.read, file1.write, file1.exec);
+```
+
+Output:
+```
+Read: 1, Write: 0, Execute: 1
+```
+
+---
+
+## 3. Few Important Points about Bit Fields
+
+| Point | Explanation |
+| --- | --- |
+| Starting Position | First field starts at the first bit of the word. No crossing of integer boundaries allowed. |
+| Address Extraction | Cannot take the address (`&`) of a bit field member. |
+| Range Limitation | Assign values only within their range. Behavior is undefined for out-of-range values. |
+| Pointers | Cannot have pointers to individual bit fields because they may not start at a byte boundary. |
+| Array Restriction | Arrays of bit fields are not allowed. |
+| Storage Class | Cannot apply storage class specifiers (like `static`) directly to bit fields. |
+| Union | Bit fields **can** be used inside a `union` to share memory. |
+| Unnamed Fields | Useful for manual alignment and padding. |
+
+### Example of Unnamed Bit Field (Padding):
+
+```c
+struct padded {
+    unsigned int a : 4;
+    unsigned int   : 4;  // 4 bits padding
+    unsigned int b : 8;
+};
+```
+
+### Example inside Union:
+
+```c
+union data {
+    struct {
+        unsigned int x : 4;
+        unsigned int y : 4;
+    } bits;
+    unsigned char byte;
+};
+
+union data d;
+d.byte = 0xAB;
+printf("X: %d, Y: %d", d.bits.x, d.bits.y);
+```
+
+---
+
+## Flowchart: How to Create a Bit Field
+
+```mermaid
+flowchart TD
+    A[Define Structure] --> B[Choose Type (int/unsigned int)]
+    B --> C[Declare Members with Widths]
+    C --> D[Initialize Fields]
+    D --> E[Use in Program]
+```
+
+---
+
+# Conclusion
+
+- **Bit fields** offer an efficient way to use memory when dealing with small flags or options.
+- They are especially useful in **embedded systems**, **protocol development**, and **memory-critical applications**.
+- Handle them carefully to avoid platform-dependent behavior.
+---
+
+# PDF - 11 :  Unions in C
+
+## 1. What is a Union?
+
+- A **user-defined data type** that can hold members of different sizes and types.
+- Allows data members that are **mutually exclusive** to share the **same memory**.
+- Provides an **efficient way of using** the memory location for multiple purposes.
+- **At any given time**, only **one member** can hold a valid value.
+- **Memory occupied** is **large enough** to store the **largest member**.
+- The **size** of a union equals the **size of its largest member**.
+- All fields in a union **overlap** and have the **same offset (0)**.
+- Commonly used in **embedded device programming**.
+
+---
+
+## 2. Accessing Union Members
+
+- **Syntax:**
+```c
+union Tag {
+    data_type member1;
+    data_type member2;
+    ...
+    data_type memberN;
+};
+```
+
+- **Access a member** using a variable of union type:
+  - Use the **dot operator (.)**.
+
+- **Access a member** using a pointer to a union:
+  - Use the **arrow operator (->)**.
+
+- **Example:**
+```c
+union Data {
+    int i;
+    float f;
+};
+
+union Data d;
+d.i = 10;       // Access using . operator
+
+union Data *ptr = &d;
+ptr->f = 20.5;  // Access using -> operator
+```
+
+---
+
+## 3. Union vs Structure
+
+| Feature                | Structure                                             | Union                                              |
+|-------------------------|--------------------------------------------------------|----------------------------------------------------|
+| **Keyword**             | `struct` is used to define a structure                | `union` is used to define a union                  |
+| **Size**                | Size ≥ Sum of all member sizes                      | Size = Size of the largest member                 |
+| **Memory Allocation**   | Each member has **unique** storage                    | All members **share** the same memory             |
+| **Value Altering**      | Changing one member does **not** affect others        | Changing one member **affects** others            |
+| **Accessing Members**   | Multiple members can be accessed independently       | Only **one member** can be accessed at a time     |
+| **Initialization**      | Several members can be initialized at once           | Only the **first member** can be initialized      |
+
+---
+
+> **Note:** Unions are especially useful when you want to store different data types in the same memory location efficiently, such as in low-memory embedded systems.
+
+---
+
