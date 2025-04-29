@@ -1288,3 +1288,183 @@ ptr->f = 20.5;  // Access using -> operator
 
 ---
 
+# PDF - 12 :  Enumerations
+
+Enumerations (enums) are user-defined data types in C that assign names to integral constants. They make code easier to read and maintain by replacing numeric constants with readable names.
+
+### Key Points:
+
+- Easier to remember than numbers.
+  ```c
+  #define MON 0
+  #define TUE 1
+  // vs
+  enum Day { MON, TUE };  // Easier to manage
+  ```
+- Symbolic names represent integer constants.
+  ```c
+  enum Color { RED, GREEN, BLUE };
+  ```
+- Do **not** occupy memory space — just symbolic.
+  ```c
+  enum Result { PASS, FAIL };  // PASS and FAIL are constants, not stored in memory
+  ```
+- Better alternative to `#define` for constant values.
+  ```c
+  enum Operation { ADD = 1, SUB = 2, MUL = 3 };
+  ```
+
+---
+
+## Enum Creation
+
+### Syntax:
+
+```c
+enum identifier { enumerator-list }; // semicolon is compulsory
+```
+
+- `identifier` is optional (can be skipped).
+- `enumerator-list` contains symbolic names.
+
+### Example:
+
+```c
+enum Error_list { SUCCESS, ERROR, RUN_TIME_ERROR, BIG_ERROR };
+```
+
+Here:
+
+- `SUCCESS` = 0 (default start)
+- `ERROR` = 1
+- `RUN_TIME_ERROR` = 2
+- `BIG_ERROR` = 3
+
+You can also assign specific values:
+
+```c
+enum Status { OK = 1, WARNING = 3, CRITICAL, UNKNOWN = 0 };
+```
+
+- `CRITICAL` = 4 (previous + 1)
+
+---
+
+## Points About Enums (With Examples)
+
+- **If no value is assigned, counting starts from 0.**
+
+  ```c
+  enum Level { LOW, MEDIUM, HIGH }; // LOW=0, MEDIUM=1, HIGH=2
+  ```
+
+- **Assign specific values to some or all names.**
+
+  ```c
+  enum HttpCode { OK = 200, NOT_FOUND = 404, SERVER_ERROR = 500 };
+  ```
+
+- **Arithmetic operations are allowed.**
+
+  ```c
+  enum Range { A = 3, B = 6 };
+  int diff = B - A;  // 3
+  ```
+
+- **Enum constants are not strings.**
+
+  ```c
+  enum Flag { ON, OFF };
+  // printf("%s", ON); // INVALID
+  ```
+
+- **Multiple names can have the same value.**
+
+  ```c
+  enum Fruit { APPLE = 1, MANGO = 2, BANANA = 1 };
+  ```
+
+- **Enum constants must be unique within their scope.**
+
+  ```c
+  enum First { A = 1 };
+  // enum Second { A = 2 }; // ERROR if same scope
+  ```
+
+- **Enum values cannot be changed.**
+
+  ```c
+  enum Consts { PI = 3 };
+  // PI = 4; // NOT ALLOWED
+  ```
+
+- **Storing one enum type value in another enum variable is allowed.**
+
+  ```c
+  enum A { X = 1 };
+  enum B { Y = 2 };
+  enum A var = Y;  // Legal in C
+  ```
+
+- **Enum symbols don’t print well directly.**
+
+  ```c
+  enum Mode { AUTO, MANUAL };
+  enum Mode current = AUTO;
+  printf("Mode: %d\n", current); // Not name, prints 0
+  ```
+
+---
+
+## Demo -->
+
+```c
+#include <stdio.h>
+
+// Define enum
+enum Day { MON, TUE, WED = 5, THU, FRI };
+
+int main() {
+    enum Day today;
+    today = THU;
+
+    printf("Value of today: %d\n", today);   // Output: 6
+
+    // Arithmetic with enums
+    printf("Next day: %d\n", today + 1);     // Output: 7
+
+    // Assign same value to multiple symbols
+    enum Color { RED = 1, GREEN = 2, BLUE = 2 };
+    printf("BLUE: %d, GREEN: %d\n", BLUE, GREEN);  // Output: 2, 2
+
+    // Print enum with mapping (workaround for name)
+    switch(today) {
+        case MON: printf("Today is Monday\n"); break;
+        case TUE: printf("Today is Tuesday\n"); break;
+        case WED: printf("Today is Wednesday\n"); break;
+        case THU: printf("Today is Thursday\n"); break;
+        case FRI: printf("Today is Friday\n"); break;
+    }
+
+    return 0;
+}
+```
+
+### Output:
+
+```
+Value of today: 6
+Next day: 7
+BLUE: 2, GREEN: 2
+Today is Thursday
+```
+
+---
+
+## Summary
+
+- Enums are symbolic names for integers.
+- Use them to simplify and clarify your code.
+- You can customize values or let them auto-increment.
+- Operations are supported, but printing needs extra steps.
+
