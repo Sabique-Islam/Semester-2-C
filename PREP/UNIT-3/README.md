@@ -1468,3 +1468,235 @@ Today is Thursday
 - You can customize values or let them auto-increment.
 - Operations are supported, but printing needs extra steps.
 
+# PDF - 13 : Lists
+
+Lists are dynamic data structures composed of nodes connected via links. Each node contains data and a link (pointer) to the next node. They allow efficient insertion and deletion operations.
+
+---
+
+### 1. Introduction
+
+- A **list** is a collection of nodes connected via pointers.
+- In C, we represent nodes using structures and links using pointers.
+- Some key questions:
+  - Can a structure have a pointer as a member? **Yes**
+  - Can one structure contain another? **Yes**
+  - Can a structure contain a variable of its own type? **No** (But it can have a pointer to its own type)
+
+This leads to the concept of self-referential structures.
+
+---
+
+### 2. Self-Referential Structures
+
+- A **self-referential structure** is a structure that contains a pointer to the same type of structure.
+- This is crucial for building linked data structures like lists.
+
+#### Example:
+
+```c
+struct node {
+    int a;
+    struct node *p; // pointer to same structure type
+};
+
+// Declaration and assignment:
+struct node s;
+s.a = 100;
+s.p = &s; // pointing to itself
+```
+
+Note:
+
+- `struct node` only defines the type.
+- Memory is allocated only when variables like `s` are declared.
+
+---
+
+### 3. Characteristics of Lists
+
+- A list is a data structure consisting of **zero or more nodes**.
+- Each node has:
+  - A **data/component field** (to store information)
+  - A **pointer field** (to store address of the next node)
+- The **pointer field** of each node links to the next node in the sequence.
+- Nodes are accessed **sequentially**; **random access is not possible**.
+- **Insertion and deletion** at any position is efficient and doesn’t require shifting elements (unlike arrays).
+
+---
+
+### 4. Pictorial Representation
+
+- Structure of a node:
+
+```c
+struct node {
+    int info;       // component field
+    struct node *link; // pointer field
+};
+typedef struct node NODE_T;
+```
+
+#### Linked List Visualization:
+
+```
+  [100|*] -> [200|*] -> [300|NULL]
+```
+
+Each box represents a node with `info` and `link` fields.
+
+#### Diagram:
+
+```
++------+     +------+     +--------+
+| 100  | --> | 200  | --> | 300    |
+| next |     | next |     | NULL   |
++------+     +------+     +--------+
+```
+
+---
+
+### 5. Operations on List
+
+#### 1. Insertion
+
+- Add a new node at beginning, middle, or end.
+
+```c
+void insertFront(struct node **head, int value) {
+    struct node *newNode = malloc(sizeof(struct node));
+    newNode->info = value;
+    newNode->link = *head;
+    *head = newNode;
+}
+```
+
+#### 2. Deletion
+
+- Remove a node by value or position.
+
+```c
+void deleteNode(struct node **head, int key) {
+    struct node *temp = *head, *prev = NULL;
+    if (temp != NULL && temp->info == key) {
+        *head = temp->link;
+        free(temp);
+        return;
+    }
+    while (temp != NULL && temp->info != key) {
+        prev = temp;
+        temp = temp->link;
+    }
+    if (temp == NULL) return;
+    prev->link = temp->link;
+    free(temp);
+}
+```
+
+#### 3. Search
+
+- Traverse and check if value exists.
+
+```c
+int search(struct node *head, int key) {
+    while (head != NULL) {
+        if (head->info == key) return 1;
+        head = head->link;
+    }
+    return 0;
+}
+```
+
+#### 4. Display
+
+- Print all elements.
+
+```c
+void display(struct node *head) {
+    while (head != NULL) {
+        printf("%d -> ", head->info);
+        head = head->link;
+    }
+    printf("NULL\n");
+}
+```
+
+#### 5. Merge
+
+- Combine two lists.
+
+```c
+struct node* merge(struct node* l1, struct node* l2) {
+    if (!l1) return l2;
+    if (!l2) return l1;
+    struct node *temp = l1;
+    while (temp->link != NULL) temp = temp->link;
+    temp->link = l2;
+    return l1;
+}
+```
+
+#### 6. Concatenate
+
+- Append list at the end of another.
+  (Same logic as merge if no sorting needed)
+
+---
+
+### 6. Different Types of Lists
+
+#### 1. Singly Linked List
+
+- Each node has a pointer to the next node.
+- Last node points to NULL.
+
+```c
+struct node {
+    int data;
+    struct node *next;
+};
+```
+
+#### 2. Doubly Linked List
+
+- Nodes have two pointers: `prev` and `next`.
+
+```c
+struct dnode {
+    int data;
+    struct dnode *prev, *next;
+};
+```
+
+#### 3. Circular Linked List
+
+- Last node links to the first.
+
+```c
+struct cnode {
+    int data;
+    struct cnode *next;
+};
+```
+
+- In circular doubly linked list: `prev` and `next` form loops.
+
+---
+
+### 7. Applications of Lists
+- **Stacks and Queues implementation**: Lists can dynamically manage stack (LIFO) and queue (FIFO) operations without fixed size constraints.
+- **Graphs using adjacency lists**: Efficient way to represent sparse graphs where each node stores a list of connected vertices.
+- **Dictionaries in compilers**: Symbol tables and lexical structures use linked lists to manage variable/function names efficiently.
+- **Gaming for state/history**: Lists can store and manage game states or actions, allowing for undo/redo functionality and game history tracking.
+- **Expression Evaluation in calculators (postfix/infix)**: Lists are used to store operands and operators for evaluating expressions in calculators, particularly for postfix or infix notation.
+
+
+---
+
+### Summary
+
+- Lists are an essential dynamic data structure in C.
+- Constructed using **self-referential structures**.
+- Allow flexible and efficient memory usage.
+- Support a variety of operations and exist in multiple forms (singly, doubly, circular).
+- Widely used in various computational and real-world applications.
