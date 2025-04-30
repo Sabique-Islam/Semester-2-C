@@ -1700,3 +1700,414 @@ struct cnode {
 - Allow flexible and efficient memory usage.
 - Support a variety of operations and exist in multiple forms (singly, doubly, circular).
 - Widely used in various computational and real-world applications.
+---
+
+# PDF - 14 : Stack
+
+A **stack** is a linear data structure that operates on the **LIFO (Last In First Out)** principle.
+
+> Think of a stack of books:
+>
+> - The **last** book you put on top is the **first** you take off.
+
+### Characteristics:
+
+- **Linear** data structure
+- Elements are inserted and removed from the **same end** (Top)
+
+```
+Stack Example (Books)
+
++--------+   <- Top (Last inserted, First removed)
+| Book 3 |
+| Book 2 |
+| Book 1 |   <- Bottom (First inserted)
++--------+
+```
+
+---
+
+## Key Terms and Operations
+
+| Term        | Description                                         |
+| ----------- | --------------------------------------------------- |
+| **Top**     | Refers to the last element added (end of the stack) |
+| **Push**    | Adds an element to the top                          |
+| **Pop**     | Removes the top element                             |
+| **Peek**    | Returns the top element without removing it         |
+| **IsEmpty** | Checks whether the stack has no elements            |
+| **IsFull**  | Checks if the stack is at maximum capacity (fixed)  |
+
+### Stack Operation Flowchart:
+
+```mermaid
+flowchart TD
+    A[Start] --> B{Is Stack Full?}
+    B -- No --> C[Push Element]
+    C --> D[Update Top]
+    D --> E[Done]
+    B -- Yes --> F[Overflow Error]
+    F --> E
+```
+
+---
+
+## Types of Stacks
+
+### 1. **Array-Based Stack**
+
+- Uses a fixed-size array
+- **Top** initialized to `-1`
+
+#### Operations:
+
+- **Push(x):**
+  ```c
+  if(top == MAX-1) { /* Stack Full */ }
+  else { top++; stack[top] = x; }
+  ```
+- **Pop():**
+  ```c
+  if(top == -1) { /* Stack Empty */ }
+  else { return stack[top--]; }
+  ```
+- **Peek():**
+  ```c
+  return stack[top];
+  ```
+
+#### Diagram:
+
+```
+Array: [10, 20, 30]
+Top: Index 2 (points to 30)
+```
+
+```mermaid
+graph LR
+    A[10] --> B[20] --> C[30]
+    C --> T((Top))
+```
+
+---
+
+### 2. **Linked List Based Stack**
+
+- Uses **nodes** and **pointers**
+- No fixed size, grows dynamically
+
+#### Operations:
+
+- **Push(x):**
+
+  ```c
+  Node* temp = new Node();
+  temp->data = x;
+  temp->next = top;
+  top = temp;
+  ```
+
+- **Pop():**
+
+  ```c
+  if(top == NULL) { /* Empty */ }
+  else {
+    Node* temp = top;
+    top = top->next;
+    delete temp;
+  }
+  ```
+
+- **Peek():**
+
+  ```c
+  return top->data;
+  ```
+
+#### Diagram:
+
+```mermaid
+graph TD
+    A[Node 3 (Top)] --> B[Node 2] --> C[Node 1 (NULL)]
+```
+
+---
+
+## Applications of Stack
+
+### 1. **Backtracking Algorithms**
+
+- Solves optimization problems
+- E.g., Maze solving, N-Queens problem
+
+### 2. **Expression Evaluation**
+
+- Used in:
+  - Postfix evaluation
+  - Prefix/Postfix to Infix conversion
+
+### 3. **Function Call Management**
+
+- Stack tracks function calls
+- Supports recursion with stack frames
+
+### 4. **Syntax Parsing & Compilers**
+
+- Used to parse programming syntax and expressions
+
+### 5. **Memory Management**
+
+- System stack manages memory and context during execution
+
+---
+
+## Summary Diagram
+
+```mermaid
+graph TB
+    Start[Start Program] --> CallFunc[Function Call]
+    CallFunc --> StackPush[Push Frame on Stack]
+    StackPush --> Execute[Execute Function Body]
+    Execute --> Return[Return from Function]
+    Return --> StackPop[Pop Frame from Stack]
+    StackPop --> End[End Program]
+```
+
+---
+
+## Visual Comparison
+
+| Feature              | Array Stack | Linked List Stack |
+| -------------------- | ----------- | ----------------- |
+| Size                 | Fixed       | Dynamic           |
+| Memory Allocation    | Static      | Dynamic (Heap)    |
+| Overflow Possibility | Yes         | No                |
+| Underflow Check      | Yes         | Yes               |
+| Speed                | Fast        | Slightly Slower   |
+
+---
+
+# PDF - 15 : Queue and Priority Queue
+
+## 1. Queue
+
+A **Queue** is a linear data structure that follows the **First In First Out (FIFO)** principle. It has two primary ends:
+
+- **Rear**: Where elements are inserted (enqueue).
+- **Front**: Where elements are removed (dequeue).
+
+> **Analogy**: Think of a line of people waiting for a bus. The first person to arrive is the first to board.
+
+```
+  FRONT           REAR
+    ↓               ↓
+   [100][99][102][134][37]
+   Dequeue      Enqueue
+```
+
+---
+
+## 2. Operations on Queue
+
+| Operation | Description                                      |
+| --------- | ------------------------------------------------ |
+| Enqueue   | Add an item to the queue from the rear end       |
+| Dequeue   | Remove an item from the queue from the front end |
+
+### Enqueue Operation (Array Based)
+```c
+void enqueue(int item) {
+    if(rear == MAX-1) printf("Queue is full");
+    else queue[++rear] = item;
+}
+```
+
+### Dequeue Operation (Array Based)
+```c
+int dequeue() {
+    if(front > rear) printf("Queue is empty");
+    else return queue[front++];
+}
+```
+
+---
+
+## 3. Types of Queues
+
+### 1. Ordinary Queue
+- FIFO principle
+- Enqueue at rear, dequeue at front
+
+### 2. Circular Queue
+- Last element points to the first
+- Avoids wastage of space
+
+```
+        FRONT             REAR
+          ↓                ↓
+      [23][14][35][--][--]
+       ↑------------------↑
+      (Wrap-around link)
+```
+
+### 3. Double-Ended Queue (Deque)
+- Insertion and deletion can occur from both front and rear ends
+
+### 4. Priority Queue
+- Elements are associated with priorities
+- Dequeue is based on priority, not position
+- Ties resolved by order of arrival
+
+---
+
+## 4. Introduction to Priority Queue
+
+- **Definition**: Each element has a priority
+- **Priority determines order of deletion (dequeue)**
+- Two Types:
+  - **Ascending Priority Queue**: Lower number = higher priority
+  - **Descending Priority Queue**: Higher number = higher priority
+
+```
+Element: [A, B, C]     Priority: [3, 1, 2]
+Dequeue Order (Asc): B → C → A
+```
+
+---
+
+## 5. Applications of Priority Queue
+
+1. **Heap Data Structures**
+2. **Dijkstra’s Shortest Path Algorithm**
+3. **Prim’s Minimum Spanning Tree Algorithm**
+4. **Data Compression (Huffman Coding)**
+5. **Operating Systems (Load Balancing, Task Scheduling)**
+
+---
+
+## 6. Implementation Methods
+
+### A. Array-Based
+- **Unordered Array**: Insert at end, search for highest priority when dequeuing
+- **Ordered Array**: Keep array sorted during enqueue
+
+### B. Linked List Based
+- **Unordered Linked List**: Insert at head/tail, dequeue searches priority
+- **Ordered Linked List**: Insert based on priority order
+
+### C. Heap Based
+- Binary Heap is efficient for both insertion and deletion
+
+---
+
+## 7. Linked List Implementation Example
+
+### Structures:
+```c
+struct component {
+    char details[20];
+    int priority;
+};
+
+struct node {
+    struct component c;
+    struct node *link;
+};
+
+struct priority_queue {
+    struct node *head;
+};
+```
+
+---
+
+## 8. Functions in Priority Queue (Linked List - Unordered)
+
+### Enqueue
+Adds a node at the beginning of the list.
+```c
+void enqueue(struct component c) {
+    struct node* temp = (struct node*)malloc(sizeof(struct node));
+    temp->c = c;
+    temp->link = pq.head;
+    pq.head = temp;
+}
+```
+
+### Dequeue
+Removes the node with the highest priority (smallest number).
+```c
+void dequeue() {
+    struct node *temp = pq.head, *prev = NULL;
+    struct node *target = pq.head, *targetPrev = NULL;
+
+    if (pq.head == NULL) {
+        printf("Queue is empty\n");
+        return;
+    }
+
+    int highest = pq.head->c.priority;
+    while (temp != NULL) {
+        if (temp->c.priority < highest) {
+            highest = temp->c.priority;
+            target = temp;
+            targetPrev = prev;
+        }
+        prev = temp;
+        temp = temp->link;
+    }
+
+    if (targetPrev != NULL)
+        targetPrev->link = target->link;
+    else
+        pq.head = target->link;
+
+    printf("Dequeued: %s\n", target->c.details);
+    free(target);
+}
+```
+
+### Display
+Displays all elements in the queue.
+```c
+void display() {
+    struct node *temp = pq.head;
+    if (!temp) {
+        printf("Queue is empty\n");
+        return;
+    }
+    while (temp != NULL) {
+        printf("%s (Priority: %d)\n", temp->c.details, temp->c.priority);
+        temp = temp->link;
+    }
+}
+```
+
+---
+
+## 9. Visual Flowchart: Queue Operations
+
+```mermaid
+flowchart LR
+    A[Start] --> B{Operation?}
+    B -->|Enqueue| C[Insert at Rear]
+    B -->|Dequeue| D[Remove from Front]
+    C --> E[Done]
+    D --> E
+```
+
+## 10. Visual Diagram: Priority Queue Logic
+
+```mermaid
+graph TD
+    A[Enqueue Item] --> B[Assign Priority]
+    B --> C{Insert Location?}
+    C -->|Unordered| D[Insert at End]
+    C -->|Ordered| E[Insert by Priority]
+    D --> F[Done]
+    E --> F
+```
+
+
+
+
