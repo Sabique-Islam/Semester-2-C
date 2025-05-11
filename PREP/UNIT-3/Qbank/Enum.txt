@@ -1,0 +1,48 @@
+1. What is Enum in C? Give an example.
+
+2. Write a program to declare an enum type year containing all months in a
+   year and display second month.
+
+3. What will be the output of the following C code?
+   #include <stdio.h>
+   enum example {a = 1, b, c};
+   enum example example1 = 2;
+   enum example answer()
+   {
+    return example1;
+   }
+   int main()
+   {
+    (answer() == a)? printf("yes"): printf("no");
+    return 0;
+   }
+
+4. In enumeration, the set of enumeration constant may contain a duplicate
+   value. True/False?
+
+5. What is the output of the following code?
+   #include<stdio.h>
+   int main()
+   {
+    enum pesu{July=0, Aug, Dec};
+    enum pesu course = Dec;
+    if (course == 0)
+      printf("course is in July");
+    else if(course == 1)
+      printf("course is in Aug");
+    if(course == 2)
+      printf("course is in Dec");
+   }
+
+6. What is the benefit of using an enum rather than a #define constant?
+
+7. What is the output of the following code?
+   #include<stdio.h>
+   enum City {Bangalore, Mysore=5, Mangalore, Pune};
+   int main()
+   {
+    printf("%d %d ", Mysore, Bangalore);
+    enum City c = Pune;
+    printf("%d %d", c*Mysore, c/Mysore);
+    return 0;
+   }

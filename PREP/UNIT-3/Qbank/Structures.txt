@@ -1,0 +1,38 @@
+1. What is structure? Explain the C syntax of structure declaration with example.
+
+2. Explain Nested structure with example.
+
+3. What do you mean by structure members?
+
+4. What is the difference between structure variable declaration and initialization?
+
+5. Write a C program to store and print name, SRN, subject and FSA marks of students using
+   structure.
+
+6. Explain the difference between array and structures.
+
+7. Explain with example how to use typedef for structures.
+
+8. Write a program that takes two inputs from the user: a distance in miles and a distance in
+   kms. Use the concept of structures and function to find the difference in miles.
+
+9. How to copy and compare structure variables? Illustrate with example.
+
+10. Why strcpy() should be used to modify the content of structure member if it is a array?
+
+11. Write a program that takes as input two-time instants (let say: t1(h1,m1,s1) and t2(h2,m2,s2)
+    where h, m and s are hours, minutes and seconds resp.) and finds the difference between
+    them (t1-t2) using the concept of structures.
+    
+    INPUT:
+    Enter hrs, mins, secs for t1:
+    03
+    20
+    50
+    Enter hrs, mins, secs for t2:
+    02
+    10
+    30
+    
+    OUTPUT:
+    Difference= 1:10:20

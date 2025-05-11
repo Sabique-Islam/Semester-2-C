@@ -1,0 +1,58 @@
+1. What is Enum in C? Give an example.
+Enumeration (or enum) is a way of creating user defined data type in C. It is
+mainly used to assign names to integral constants. Enumeration data type
+consists of named integer constants as a list. It start with 0 (zero) by default
+and value is incremented by 1 for the sequential identifiers in the list.
+
+Syntax:
+enum identifier {enumerator-list};
+
+Examples:
+enum month { Jan, Feb, Mar };
+Jan, Feb and Mar variables will be assigned to 0, 1 and 2 respectively by default
+
+enum month { Jan = 1, Feb, Mar };
+Feb and Mar variables will be assigned to 2 and 3 respectively by default
+
+3. What will be the output of the following C code?
+#include <stdio.h>
+enum example {a = 1, b, c};
+enum example example1 = 2;
+enum example answer()
+{
+    return example1;
+}
+int main()
+{
+    (answer() == a)? printf("yes"): printf("no");
+    return 0;
+}
+
+Ans - no
+
+Explanation: In the code shown above, the value of example1 is returned by
+the function answer. The ternary statement prints yes if this value is equal to 
+that of 'a' and no if the value is not equal to that of 'a'. Since the value of 'a'
+is 1 and that returned by the function is 2, therefore no is printed.
+
+6. What is the benefit of using an enum rather than a #define constant?
+The use of an enumeration constant (enum) has many advantages over using
+the traditional symbolic constant style of #define. These advantages include a
+lower maintenance requirement, improved program readability, and better
+debugging capability.
+
+1) The first advantage is that enumerated constants are generated
+   automatically by the compiler. Conversely, symbolic constants must be
+   manually assigned values by the programmer.
+
+2) Another advantage of using the enumeration constant method is that the
+   programs are more readable and thus can be understood better by others.
+
+3) A third advantage to using enumeration constants is that some symbolic
+   debuggers can print the value of an enumeration constant. Conversely,
+   most symbolic debuggers cannot print the value of a symbolic constant.
+   This can be an enormous help in debugging user program, because if your
+   program is stopped at a line that uses an enum, it can simply inspect that
+   constant and instantly know its value. On the other hand, because most
+   debuggers cannot print #define values, user would most likely have to
+   search for that value by manually looking it up in a header file.

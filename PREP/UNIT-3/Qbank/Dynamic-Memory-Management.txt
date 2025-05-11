@@ -1,0 +1,24 @@
+1. What is dynamic memory allocation? Explain different dynamic memory allocation/deallocation 
+   functions of C with syntax and example.
+
+2. malloc() function used in dynamic allocation is available in which header file?
+
+3. Distinguish between malloc and calloc()
+
+4. What are the different errors that can occur in DMA?
+
+5. Write a program in C to find the largest element in an array using Dynamic Memory
+   Allocation.
+
+6. C program to create memory for int, char and float variable at run time.
+
+7. C program to input and print text using Dynamic Memory Allocation.
+
+8. C program to read a one dimensional array, print sum of all elements along with inputted
+   array elements using Dynamic Memory Allocation.
+
+9. C program to read and print the student details using structure and Dynamic Memory
+   Allocation.
+
+10. C program to read and print the N student details using structure and Dynamic Memory
+    Allocation.

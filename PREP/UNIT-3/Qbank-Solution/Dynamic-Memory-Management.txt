@@ -1,0 +1,37 @@
+4. What are the different errors that can occur in DMA?
+• Dangling Pointer
+• NULL Pointer
+• Garbage
+• Double free error
+
+6. C program to create memory for int, char and float variable at run time.
+#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    int *ptr_1;   // Declare an integer pointer
+    char *ptr_2;  // Declare an char pointer
+    float *ptr_3; // Declare an float pointer
+
+    // Now allocating memory to each pointer using dynamic memory allocation
+    ptr_1 = (int*)malloc(1*sizeof(int));
+    ptr_2 = (char*)malloc(1*sizeof(char)*1);
+    ptr_3 = (float*)malloc(1*sizeof(float));
+
+    printf("\nEnter the value for integer pointer : ");
+    scanf("%d", ptr_1);
+    printf("\nEnter the value for char pointer : ");
+    scanf(" %c", ptr_2);
+    printf("\nEnter the value for float pointer : ");
+    scanf("%f", ptr_3);
+    printf("\nThe value stored in integer pointer is : %d", *ptr_1);
+    printf("\nThe value stored in char pointer is : %c", *ptr_2);
+    printf("\nThe value stored in float pointer is : %f", *ptr_3);
+    free(ptr_1);
+    free(ptr_2);
+    free(ptr_3);
+    ptr_1 = NULL;
+    ptr_2 = NULL;
+    ptr_3 = NULL;
+    return 0;
+}
