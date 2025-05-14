@@ -30,9 +30,10 @@ Syntax -->
 int main(){
     struct time
     {
-        unsigned int hour: 5; // unsigned int --> 0 to 2^32 - 1 : 4 bytes
-        unsigned int minute: 6;
-        unsigned int second: 6;  
+        // unsigned int --> 0 to 2^32 - 1 : 4 bytes (32 bits)
+        unsigned int hour: 5; // bits --> 5 (Values 0 to 31 {2^5 - 1})
+        unsigned int minute: 6; // bits --> 6 (Values 0 to 63 {2^6 - 1})
+        unsigned int second: 6;  // bits --> 6 (Values 0 to 63 {2^6 - 1})
     };
 
     struct time t = {12, 34, 24};
