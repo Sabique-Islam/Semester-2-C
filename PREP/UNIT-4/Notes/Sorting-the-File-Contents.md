@@ -11,7 +11,7 @@ Create a menu-driven program to perform selection sort based on roll number and 
 - First row represents column headers: roll_no and name
 - Contains approximately 55 rows with data separated by commas
 
-### Program Example: Selection Sort on Student Records
+### Selection Sort on Student Records
 
 ```c
 // AI generated
@@ -161,7 +161,7 @@ int main() {
 ### Selection Sort Algorithm Visualization
 
 ```mermaid
-graph TD
+flowchart TD
     A[Start with unsorted array] --> B[Outer loop: i from 0 to n-2]
     B --> C[Set min_idx = i]
     C --> D[Inner loop: j from i+1 to n-1]
