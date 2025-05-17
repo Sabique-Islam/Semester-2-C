@@ -165,14 +165,14 @@ flowchart TD
     A[Start with unsorted array] --> B[Outer loop: i from 0 to n-2]
     B --> C[Set min_idx = i]
     C --> D[Inner loop: j from i+1 to n-1]
-    D --> E{arr[j] < arr[min_idx]?}
+    D --> E{arr[j] &lt; arr[min_idx]?}
     E -->|Yes| F[Update min_idx = j]
     E -->|No| G[Do nothing]
     F --> H[Continue inner loop]
     G --> H
     H --> D
     D --> I[Swap arr[i] with arr[min_idx]]
-    I --> J{i < n-2?}
+    I --> J{i &lt; n-2?}
     J -->|Yes| B
     J -->|No| K[Array is sorted]
 ```
