@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+#pragma pack(1) // Compiler directive used in C to control structure padding.
+
 struct Student{
     int id;
     char name[100];
