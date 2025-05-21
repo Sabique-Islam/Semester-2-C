@@ -1,0 +1,87 @@
+#include<stdio.h>
+
+enum Sample {
+    A,      // 0
+    B = 8,  // 8
+    C,      // 9 (since previous 8)
+    D       // 10
+};
+
+int main() {
+    enum Sample s = B;  // s = 8
+    printf("%d\t%d\n", s + C, s + A); //17    8
+}
+
+## **What is a Storage Class in C?**
+
+**Storage class** in C defines:
+
+* The **lifetime** (how long a variable exists in memory),
+* The **scope** (where the variable is accessible), and
+* The **visibility** (whether the variable is visible outside the file or function).
+
+There are **four main storage classes** in C:
+
+1. **auto** (default for local variables)
+2. **register** (suggests variable be stored in CPU register)
+3. **static**
+4. **extern**
+
+---
+
+## **Static Storage Class**
+
+* The **`static`** keyword changes the lifetime of a variable.
+* For **local variables**, static causes them to **retain their value between function calls**.
+* For **global variables or functions**, static restricts their visibility to the **current file (internal linkage)**.
+
+---
+
+## Example of `static` variable inside a function:
+
+```c
+#include <stdio.h>
+
+void counter() {
+    static int count = 0; // static local variable
+    count++;
+    printf("Count = %d\n", count);
+}
+
+int main() {
+    counter();  // Count = 1
+    counter();  // Count = 2
+    counter();  // Count = 3
+    return 0;
+}
+```
+
+### Explanation:
+
+* `count` is initialized only once.
+* Its value is **preserved** between calls to `counter()`.
+* Each time `counter()` runs, `count` is incremented from the previous value.
+
+---
+
+### If `count` was **not** static:
+
+```c
+void counter() {
+    int count = 0; // normal local variable
+    count++;
+    printf("Count = %d\n", count);
+}
+```
+
+Output would always be:
+
+```
+Count = 1
+Count = 1
+Count = 1
+```
+
+because `count` is re-initialized every call.
+
+---
