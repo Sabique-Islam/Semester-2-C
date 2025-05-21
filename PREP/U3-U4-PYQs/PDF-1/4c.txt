@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include <string.h>
+
+struct Train {
+    char name[100];
+    int cost;
+    int availability_count;
+};
+typedef struct Train TRAIN;
+
+int compare_availability(TRAIN *a, TRAIN *b) {
+    return a->availability_count > b->availability_count;
+}
+
+int compare_cost(TRAIN *a, TRAIN *b) {
+    return a->cost > b->cost;
+}
+
+void selection_sort(TRAIN *t, int n, int (*com)(TRAIN*, TRAIN*)) {
+    int i, j, min_idx;
+    for (i = 0; i < n - 1; i++) {
+        min_idx = i;
+        for (j = i + 1; j < n; j++) {
+            if (com(&t[min_idx], &t[j])) {
+                min_idx = j;
+            }
+        }
+        if (min_idx != i) {
+            TRAIN temp = t[i];
+            t[i] = t[min_idx];
+            t[min_idx] = temp;
+        }
+    }
+}
+
+int main() {
+    TRAIN train_arr[] = {
+        {"AndhraPradesh Express", 1000, 7},
+        {"AndhraPradeshExpress", 500, 56},
+        {"Andhra Pradesh Sampark Kranti", 800, 10},
+        {"Abadh Assam Express", 1000, 67},
+        {"Abkp Durg Passenger E", 800, 3},
+        {"Abkp Jbp Express", 600, 6},
+        {"Abkp Sdl Passenger", 750, 4},
+        {"Abs Ju Passenger", 850, 80},
+        {"Adb Qln Special", 900, 66},
+        {"Adi Madgaon Special", 450, 48}
+    };
+    int n = 10;
+
+    int ch;
+    printf("Enter the choice.\n1. Sort on availability\n2. Sort on cost\n");
+    scanf("%d", &ch);
+
+    switch (ch) {
+        case 1:
+            selection_sort(train_arr, n, compare_availability);
+            break;
+        case 2:
+            selection_sort(train_arr, n, compare_cost);
+            break;
+        default:
+            printf("Exiting from the program\n");
+            return 0;
+    }
+
+    printf("\n%s %s %s\n", "Train Name", "Cost", "Avail");
+    for (int i = 0; i < n; i++) {
+        printf("%s %d %d\n", train_arr[i].name, train_arr[i].cost, train_arr[i].availability_count);
+    }
+
+    return 0;
+}

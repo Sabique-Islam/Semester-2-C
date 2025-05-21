@@ -1,0 +1,21 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int recursive_binary(int a[], int low, int high, int target){
+    if(low>high){
+        return -1;
+    }
+    int mid = low + (high-low)/2;
+    if (a[mid] == target){
+        return mid;
+    }else if (a[mid] > target){
+        recursive_binary(int a[], low, mid-1, target);
+    }else{
+        recursive_binary(int a[], mid+1, high, target);
+    }
+}
+
+int main(){
+    
+}
