@@ -1,0 +1,70 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node{ 
+    int data; 
+    struct node* link; 
+};
+
+typedef struct node NODE;
+
+struct list{ 
+    NODE *head; 
+};
+
+typedef struct list LIST;
+
+void extract_data_display(LIST* li,int *even,int *odd){
+    int i=0, j=0;
+    
+    if(li->head == NULL){
+        printf("No elements...\n");
+    }else{
+        NODE *n = li->head;
+        while(n!=NULL){
+            if (n->data %2 ==0){
+                even[i] = n->data;
+                i++;
+            }else{
+                odd[j] = n->data;
+                j++;
+            }
+            n = n->link;
+        }
+        int k;
+        printf("Even numbers present -->\n");
+        
+        for(k=0; k<i; k++){
+            printf("%d\t", even[k]);
+        }
+        printf("\n");
+        
+        printf("Odd numbers present -->\n");
+        
+        for(k=0; k<j; k++){
+            printf("%d\t", odd[k]);
+        }
+        printf("\n");
+    }
+}
+
+int main(){
+NODE *n = (NODE*) malloc(sizeof(NODE));
+n->data = 40; 
+
+n->link = (NODE*) malloc(sizeof(NODE));
+n->link->data = 33; 
+
+n->link->link = (NODE*) malloc(sizeof(NODE));
+n->link->link->data = 25; 
+
+n->link->link->link = (NODE*) malloc(sizeof(NODE));
+n->link->link->link->data = 88; 
+
+n->link->link->link->link = NULL;
+LIST *li; li->head = n; 
+
+int odd[100]; int even[100];
+extract_data_display(li,even,odd);
+return 0;
+}

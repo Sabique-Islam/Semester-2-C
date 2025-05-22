@@ -1,0 +1,6 @@
+Pointer which points to a location that doesn’t exist
+int *p = (int*) malloc(sizeof(5*sizeof(int)));
+*p = 80;
+free(p); // p becomes dangling
+-------------------------------------------------------
+diagram
