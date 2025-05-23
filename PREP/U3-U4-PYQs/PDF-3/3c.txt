@@ -1,0 +1,23 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+int main(){
+    int sales[3][2];
+    int count1 = 0;
+    int count2 = 0;
+    
+    printf("Enter the data:\n");
+    for (int i=0; i<3; i++){
+        printf("Enter the sales of 2 items sold by the sales man: %d\n", i);
+        scanf("%d %d", &sales[i][0], &sales[i][1]);
+    }
+    
+    for(int i=0; i<3; i++){
+        count1 += sales[i][0];
+        count2 += sales[i][1];
+    }
+    
+    printf("Total sales of each item 0 = %d\n", count1);
+    printf("Total sales of each item 1 = %d", count2);
+    return 0;
+}

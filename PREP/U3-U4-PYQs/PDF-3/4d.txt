@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+int square(int x) {
+    return x*x;
+}
+
+int cube(int x) {
+    return x*x*x;
+}
+
+void process(int x, int (*callback)(int)) {
+    int result = callback(x);
+    printf("Result: %d\n", result);
+}
+
+int main() {
+    int num = 5;
+    
+    process(num, square);
+    process(num, cube);
+
+    return 0;
+}

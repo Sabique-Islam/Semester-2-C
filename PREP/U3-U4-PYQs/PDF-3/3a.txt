@@ -1,0 +1,4 @@
+If the same pointer variable is allocated memory more than once using the
+dynamic memory allocation functions, initially allocated memory space becomes a
+"Memory Leak".
+Garbage which has no name and hence no access in turn results in "wasted memory" 
