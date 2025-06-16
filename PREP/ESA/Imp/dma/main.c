@@ -14,7 +14,7 @@ int main() {
     }
     printf("Memory allocated with malloc:\n");
     for (i = 0; i < n; i++) {
-        arr[i] = i + 1; // Assign values
+        *(arr+i) = i + 1; // Assign values
         printf("%d ", arr[i]);
     }
     printf("\n");
