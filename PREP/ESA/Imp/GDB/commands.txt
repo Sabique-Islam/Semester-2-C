@@ -1,0 +1,23 @@
+gcc -g filename.c -o output.exe
+
+gdb output.exe
+
+// Set break points
+
+(gdb) -> this will be there during debugging
+
+break main
+break function_name
+break line_number
+
+run
+
+step
+
+next (move to next line)
+
+print variable_name
+
+continue
+
+quit
